@@ -5,6 +5,31 @@ Datos originales de discursos presidenciales obtenidos desde la Web, y scripts p
 - 575 discursos de Sebastián Piñera desde 2010 hasta 2014, obtenidos desde el sitio http://2010-2014.gob.cl/discursos/ (descargados en diciembre 2017). Todos los discursos se encuentran en páginas en formato .htm. Aproximadamente 565 son discursos únicos.
 - 1581 discursos de Michelle Bachelet desde 2014 hasta 2017, obtenidos desde el sitio https://prensa.presidencia.cl/discursos.aspx (descargados en diciembre 2017). Todos los discursos se encuentran en páginas en formato .html. Aproximadamente 1544 son discursos únicos.
 
-Para procesarlos simplemente se debe ejecutar el script `data_processing.sh` en la raiz (requiere python 3, un par de librerías estandar y [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/)). Este script genera archivos de texto con el contenido de cada discurso eliminando algunos duplicados o discursos que son realmente extractos de otros. 
+Para descargar los datos originales y descomprimirlos (siguiendo la estructura de carpetas esperada) se debe ejecutar:
+
+```
+wget http://dcc.uchile.cl/~jperez/resources/bachelet_2.tar.gz
+wget htpp://dcc.uchile.cl/~jperez/resources/piñera_1.tar.gz
+
+tar zxvf bachelet_2.tar.gz
+tar zxvf piñera_1.tar.gz
+```
+
+Para extraer el texto desde los archivos .htm y .html se debe ejecutar
+
+```
+python src/html_to_txt_plus_meta_bachelet.py
+python src/htm_to_txt_plus_meta_piñera.py
+```
+
+en la raiz (requiere python 3, un par de librerías estandar y [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/)). 
+
+
+Para limpiar los datos de texto, elimiando algunos discursos duplicados o discursos que son realmente extractos de otros, se debe ejecutar
+
+```
+python src/text_processing.py data/bachelet_2/
+python src/text_processing.py data/piñera_1/
+```
 
 Importante: la extracción de texto desde los archivos más el chequeo de duplicados puede tardar un par de minutos pues el chequeo implica encontrar el traslape máximo entre pares de discursos y eliminar el discurso de menor tamaño cuando el string comun más largo pase cierto umbral (ver los códigos para los umbrales seteados en cada caso así como la cantidad pares a chequear y la forma de los chequeos).
