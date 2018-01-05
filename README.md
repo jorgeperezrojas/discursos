@@ -5,7 +5,7 @@ Datos originales de discursos presidenciales obtenidos desde la Web, y scripts p
 - 575 discursos de Sebastián Piñera desde 2010 hasta 2014, obtenidos desde el sitio http://2010-2014.gob.cl/discursos/ (descargados en diciembre 2017). Todos los discursos se encuentran en páginas en formato .htm. Aproximadamente 565 son discursos únicos.
 - 1581 discursos de Michelle Bachelet desde 2014 hasta 2017, obtenidos desde el sitio https://prensa.presidencia.cl/discursos.aspx (descargados en diciembre 2017). Todos los discursos se encuentran en páginas en formato .html. Aproximadamente 1544 son discursos únicos.
 
-Para descargar los datos originales y descomprimirlos (siguiendo la estructura de carpetas esperada) se debe ejecutar:
+Para descargar los datos originales y descomprimirlos (siguiendo la estructura de carpetas esperada) se debe ejecutar los siguientes comandos desde la raiz:
 
 ```
 wget http://dcc.uchile.cl/~jperez/resources/bachelet_2.tar.gz
