@@ -9,7 +9,7 @@ Para descargar los datos originales y descomprimirlos (siguiendo la estructura d
 
 ```
 wget http://dcc.uchile.cl/~jperez/resources/bachelet_2.tar.gz
-wget htpp://dcc.uchile.cl/~jperez/resources/piñera_1.tar.gz
+wget http://dcc.uchile.cl/~jperez/resources/piñera_1.tar.gz
 
 tar zxvf bachelet_2.tar.gz
 tar zxvf piñera_1.tar.gz
