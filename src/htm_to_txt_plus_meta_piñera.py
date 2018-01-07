@@ -22,28 +22,25 @@ for filename in os.listdir(html_directory):
         with open(os.path.join(html_directory, filename)) as infile:
             html = bs4.BeautifulSoup(infile,'lxml')
 
-        spans =  html.find_all('section')
         data = {}
-        for span in spans:
-            if span.get('id') == 'content': ### search for date
-                
-                pre_date = span.article.header.find('time').get("datetime")
-                data['date'] = re.sub('-','_',pre_date)
-                data['title'] = span.article.header.h2.text
 
-            if span.get('class') == ['body']:
-                picture = span.find('img')
-                if (picture):
-                    data['picture'] = prefix_site + picture.get('src').strip()
-                else:
-                    data['picture'] = 'None'
-            
-            if  span.get('class') == ['body']:
-                pars = span.find_all('p') # all paragraphs (skip titles)
-                text = '\n'.join([par.text for par in pars])
-                data['content'] = text.strip()
+        content = html.find('section',{'id':'content'})
+        pre_date = content.article.header.find('time').get("datetime")
+        data['date'] = re.sub('-','_',pre_date)
+        data['title'] = content.article.header.h2.text
 
-        if 'content' not in data:
+        body = html.find('section',{'class':'body'})
+        picture = body.find('img')
+        if picture:
+            data['picture'] = prefix_site + picture.get('src').strip()
+        else:
+            data['picture'] = 'None'
+
+        pars = body.find_all('p')
+        text = '\n'.join([par.text for par in pars])
+        data['content'] = text.strip()        
+
+        if data['content'] == '':
             print('no data in file',filename)
             continue
 

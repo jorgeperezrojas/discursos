@@ -23,32 +23,26 @@ for filename in os.listdir(html_directory):
 
         spans =  html.find_all('span')
         data = {}
-        for span in spans:
-            if span.get('id') == 'main_ltTitulo':
-                data['title'] = span.text.strip()
-            if span.get('id') == 'main_ltFEcha':
-                pre_date_list = span.text.strip().split()
-                day_s = pre_date_list[0].zfill(2)
-                month_s = str(months[pre_date_list[1]]).zfill(2)
-                year_s = pre_date_list[2]
-                data['date'] = '_'.join([year_s,month_s,day_s])
-            if span.get('id') == 'main_ltFotoDestacada':
-                picture = span.find('img')
-                if (picture):
-                    data['picture'] = prefix_site + picture.get('src').strip().replace('\\','/')
-                else:
-                    data['picture'] = 'None'
-            if span.get('id') == 'main_ltBajada':
-                data['subtitle'] = span.text.strip()
-            if span.get('id') == 'main_ltContenido':
-                data['content'] = span.text.strip()
 
-        if 'content' not in data:
-            print('no data in file',filename)
-            continue
+        pre_date_list = html.find('span',{'id':'main_ltFEcha'}).text.strip().split()
+        day_s = pre_date_list[0].zfill(2)
+        month_s = str(months[pre_date_list[1]]).zfill(2)
+        year_s = pre_date_list[2]
+        data['date'] = '_'.join([year_s,month_s,day_s])
+
+        picture = html.find('span',{'id':'main_ltFotoDestacada'}).find('img')
+        if (picture):
+            data['picture'] = prefix_site + picture.get('src').strip().replace('\\','/')
+        else:
+            data['picture'] = 'None'
+
+        data['title'] = html.find('span',{'id':'main_ltTitulo'}).text.strip()
+        data['subtitle'] = html.find('span',{'id':'main_ltBajada'}).text.strip()
+        data['content'] = html.find('span',{'id':'main_ltContenido'}).text.strip()
 
         outfilename_pref = data['date'] + '_' + filename[:-5]
         outfile_txt = outfilename_pref + '.txt'
+
         with open(os.path.join(txt_directory, outfile_txt), 'w') as outfile:
             outfile.write(data['content'])
 
