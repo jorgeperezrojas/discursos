@@ -22,7 +22,7 @@ python src/html_to_txt_plus_meta_bachelet.py
 python src/htm_to_txt_plus_meta_piñera.py
 ```
 
-en la raiz (requiere python 3, un par de librerías estandar y [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/)). Esto también almacena archivos con algunos metadatos de cada discursos obtenidos desde los .htm y .html correspondientes (como fecha, títutlos, subtítulos y direcciones de archivos de imágenes para ciertos discursos).
+en la raiz (requiere python 3, un par de librerías estandar y [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/)). Esto también almacena archivos con algunos metadatos de cada discurso obtenidos desde los .htm y .html correspondientes (como fecha, títulos, subtítulos y direcciones de archivos de imágenes para ciertos discursos).
 
 Para limpiar los datos de texto, se debe ejecutar
 
