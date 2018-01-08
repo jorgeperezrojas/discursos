@@ -1,11 +1,9 @@
 import os
 import bs4
 import re
-from check_duplicates import check_duplicates_and_store_meta
 
 html_directory = 'data/bachelet_2/crawl/html/'
 txt_directory = 'data/bachelet_2/raw_text/'
-p_txt_directory = 'data/bachelet_2/processed_text/'
 prefix_site = 'https://prensa.presidencia.cl'
 
 meta_to_write = []
@@ -14,7 +12,7 @@ months = {'ENE':1,'FEB':2,'MAR':3,'ABR':4,'MAY':5,'JUN':6,'JUL':7,'AGO':8,'SEP':
 
 print('extracting text...')
 
-os.makedirs(txt_directory, exist_ok=True)
+os.makedirs(txt_directory)
 for filename in os.listdir(html_directory):
     if filename.endswith('.html'):
         # abre y parsea el archivo
@@ -56,13 +54,12 @@ for filename in os.listdir(html_directory):
 
 
 print('done extracting text...')
+print('writting meta...')
 
-check_duplicates_and_store_meta(
-    meta_to_write,
-    txt_directory,
-    p_txt_directory,
-    n_equals=300,
-    look_ahead=5,
-    manual_duplicates=['2014_10_23_9048','2015_10_13_21664'])
+meta_to_write_sorted = sorted(meta_to_write)
+os.makedirs(txt_directory, exist_ok=True)
+with open(os.path.join(txt_directory, 'meta.txt'), 'w') as out_meta:
+    for line in meta_to_write_sorted:
+        out_meta.write(line)
 
-
+print('done')
