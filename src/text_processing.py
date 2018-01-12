@@ -110,8 +110,8 @@ if __name__ == '__main__':
     clean_d_directory = os.path.join(processed_directory,'discursos_limpios')
 
 
-    shutil.rmtree(clean_d_directory)
-    shutil.rmtree(processed_directory)
+    shutil.rmtree(clean_d_directory,ignore_errors=True)
+    shutil.rmtree(processed_directory,ignore_errors=True)
 
     os.makedirs(processed_directory)
     os.makedirs(clean_d_directory)
