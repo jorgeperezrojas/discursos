@@ -37,13 +37,25 @@ for filename in os.listdir(html_directory):
         else:
             data['picture'] = 'None'
 
-        data['content'] = html.find('article').text.strip()
+        article = html.find('article')
+
+        # consider the text in every page from the first 'p' element until the first sibiling element is not 'p'
+        first_par = article.find('p')
+        text_list = [first_par.text.strip()]
+        for x in first_par.fetchNextSiblings():
+            if x.name == 'p':
+                text_list.append(x.text.strip())
+            else:
+                break
+
+        text = '\n'.join(text_list)
+        data['content'] = text.strip()
 
         if data['content'] == '':
             print('no data in file',filename)
             continue
 
-        outfilename_pref = data['date'] + '_' + filename[:-4]
+        outfilename_pref = data['date'] + '_' + filename[:-5]
         outfile_txt = outfilename_pref + '.txt'
         with open(os.path.join(txt_directory, outfile_txt), 'w') as outfile:
             outfile.write(data['content'])

@@ -34,3 +34,18 @@ python src/text_processing.py data/piñera_1/ --duplicateDeletion --frequencyCle
 El script tiene varias otras opciones para regular la limpieza de los textos.
 
 Importante: la extracción de texto desde los archivos más el chequeo de duplicados puede tardar un par de minutos pues el chequeo implica encontrar el traslape máximo entre pares de discursos y eliminar el discurso de menor tamaño cuando el string comun más largo pase cierto umbral. Para modificar los valores de chequeos de duplicados se pueden usar las opciones `--lookAhead` y `--numEquals`.
+
+
+## Bonus! discursos argentinos
+
+372 discursos de Mauricio Macri desde 2015 a enero de 2018 obtenidos desde el sitio https://www.casarosada.gob.ar/informacion/discursos (descargados a inicios de enero 2018). Aproximadamente 360 son discursos únicos. Para procesarlos hay que hacer casi lo mismo que arriba. Desde la raiz
+
+
+```
+wget http://dcc.uchile.cl/~jperez/resources/macri.tar.gz
+tar zxvf macri.tar.gz
+python src/html_to_txt_plus_meta_macri.py
+python src/text_processing.py data/macri/ --duplicateDeletion --frequencyCleaning 0.19 --verbose
+```
+
+

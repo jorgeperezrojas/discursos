@@ -21,6 +21,7 @@ def check_duplicates(
     ### La complejidad del proceso actual es O(N*look_ahead*M*logM) con los valores por defecto
 
     duplicates = set()
+    finish = False
 
     if filenames == []:
         for filename in os.listdir(p_txt_directory):
@@ -31,6 +32,8 @@ def check_duplicates(
         print('Checking duplicates for',len(filenames),'files.')
 
     for i in range(len(filenames)-1):
+        if finish:
+            break
         if verbose:
             sys.stdout.write("Checking file:{} of {} \r".format(i,len(filenames)))
             sys.stdout.flush()
@@ -49,7 +52,16 @@ def check_duplicates(
             l = min(len(checking_text),len(current_text))
             lcs = longest_common_substring(checking_text + current_text)
 
-            if len(list(lcs.keys())[0]) > n_equals: #d_factor*l:ç
+
+            length_repetition = len(list(lcs.keys())[0])
+            position_first_repetition = list(lcs.values())[0][0] 
+            position_last_repetition = list(lcs.values())[0][-1]
+
+            if  length_repetition > n_equals \
+                and position_first_repetition < len(checking_text)-10 \
+                and position_last_repetition > len(checking_text)+10: # THESE TWO LINES ENSURES THAT THE REPETITION IS IN DIFFERENT FILES
+                # print(lcs)
+                # print(len(checking_text))
                 if verbose:
                     print('found duplicate',current_file[:25],'=',checking_file[:25])
                 if len(current_text) < len(checking_text):
@@ -65,7 +77,7 @@ def check_duplicates(
             j += 1
             if j == len(filenames):
                 break
-            checking_file = checking_file = filenames[j]
+            checking_file = filenames[j]
             checking_date = checking_file[:10]
 
     # some manual duplicates:
@@ -74,7 +86,7 @@ def check_duplicates(
 
     if verbose:
         print()
-        print('duplicates found:',duplicates)
+        print(str(len(duplicates)),'duplicates found:',duplicates)
         print('deleting duplicates...')
 
     # elimina archivos repetidos

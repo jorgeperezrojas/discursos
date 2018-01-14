@@ -18,6 +18,9 @@ re_months = r'(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octu
 re_date_spec = '(([' + re_letters + ']{1,30} ?){1,3}\,? +)?[0-9]{1,2}( +de)? +' + re_months + '( +del?)? +2[0-9]{3}\.{0,10}$'
 re_html_garbage = r'((br| ) )*((&([a-z0-9]+;)+(br)*)+)'
 
+sequences_to_delete = ['(APLAUSOS)','()']
+re_text_garbage = '(' + '|'.join(sequences_to_delete) + ')'
+
 banned_prefixes = []
 
 expressions_to_delete = [
@@ -37,9 +40,12 @@ def clean_text(raw_text):
             text = re.sub(exp,'',text)
     text = re.sub(re_skip_strings,'',text)
     text = re.sub(' +',' ',text)
+    for seq in sequences_to_delete:
+        if re.search(seq,text):
+            text = re.sub(seq,'',text)
     return text
 
-def is_useful_line(line,word_counts=None,frequency=0.19,min_len=50):
+def is_useful_line(line,word_counts=None,frequency=0,min_len=50):
     if line == '':
         return False
 
@@ -83,7 +89,7 @@ if __name__ == '__main__':
                         help='Discard paragraphs with average frequency of words below F (this is to keep out non Spanish discursos).')
     parser.add_argument('-v', '--verbose', default=False, action='store_true',
                         help='Show in detail what the script is doing.')
-    parser.add_argument('-mC', '--minUsefulChars', metavar='MC', type=int, default=1000, 
+    parser.add_argument('-mC', '--minUsefulChars', metavar='MC', type=int, default=800, 
                         help='Minimum number of useful characters in a discurso to consider it.')
     parser.add_argument('-f', '--fullProcessing', default=False, action='store_true',
                         help='Make full processing of text.')
@@ -200,7 +206,7 @@ if __name__ == '__main__':
 
                 for line in raw_lines:
                     clean_line = clean_text(line)
-                    if is_useful_line(clean_line):
+                    if is_useful_line(clean_line, word_counts=word_counts, frequency=frequency):
                         useful_lines.append(clean_line)
 
                 text = ' '.join(useful_lines)
