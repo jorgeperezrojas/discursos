@@ -36,16 +36,22 @@ El script tiene varias otras opciones para regular la limpieza de los textos.
 Importante: la extracción de texto desde los archivos más el chequeo de duplicados puede tardar un par de minutos pues el chequeo implica encontrar el traslape máximo entre pares de discursos y eliminar el discurso de menor tamaño cuando el string comun más largo pase cierto umbral. Para modificar los valores de chequeos de duplicados se pueden usar las opciones `--lookAhead` y `--numEquals`.
 
 
-## Bonus! discursos argentinos
+## Bonus! discursos de presidentes argentinos
 
-372 discursos de Mauricio Macri desde 2015 a enero de 2018 obtenidos desde el sitio https://www.casarosada.gob.ar/informacion/discursos (descargados a inicios de enero 2018). Aproximadamente 360 son discursos únicos. Para procesarlos hay que hacer casi lo mismo que arriba. Desde la raiz
+Similar a los discursos de presidentes chilenos, los siguientes son datos originales de discursos presidenciales argentinos obtenidos desde la Web, y scripts para procesarlos (extraer texto, limpiarlo y eliminar duplicados). Actualmente contiene:
 
+- 948 discursos de Néstor Kirchner desde 2003 a 2007 obtenidos desde el sitio https://www.casarosada.gob.ar/informacion/archivo (descargados a inicios de enero 2018). Aproximadamente 930 son discursos únicos.
+- 1558 discursos de Cristina Fernández desde 2007 a 2015 obtenidos desde el sitio https://www.casarosada.gob.ar/informacion/archivo (descargados a inicios de enero 2018). 
+Aproximadamente 1540 son discursos únicos.
+- 372 discursos de Mauricio Macri desde 2015 a enero de 2018 obtenidos desde el sitio https://www.casarosada.gob.ar/informacion/discursos (descargados a inicios de enero 2018). Aproximadamente 360 son discursos únicos. 
+
+Para procesarlos hay que hacer casi lo mismo que arriba. Desde la raiz ejecutar los siguientes comandos, reemplazando `<presidente>` por `kirchner`, `fernandez`, o `macri`.
 
 ```
-wget http://dcc.uchile.cl/~jperez/resources/macri.tar.gz
-tar zxvf macri.tar.gz
-python src/html_to_txt_plus_meta_macri.py
-python src/text_processing.py data/macri/ --duplicateDeletion --frequencyCleaning 0.19 --verbose
+wget http://dcc.uchile.cl/~jperez/resources/<presidente>.tar.gz
+tar zxvf <presidente>.tar.gz
+python src/html_to_txt_plus_meta_<presidente>.py
+python src/text_processing.py data/<presidente>/ --duplicateDeletion --frequencyCleaning 0.19 --verbose
 ```
 
 
