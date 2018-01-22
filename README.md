@@ -39,12 +39,12 @@ Importante: la extracción de texto desde los archivos más el chequeo de duplic
 
 Una forma amigable de visualizar algunos temas de discursos es construyendo embeddings para las frases en cada discurso. Los siguientes archivos contienen embeddings para algunas frases de los discursos de Sebastián Piñera.
 
-- [Embeddings para 2039 frases](http://dcc.uchile.cl/~jperez/resources/ev_vec.tsv): 2039 vectores de 300 dimensiones.
-- [Metadata](http://dcc.uchile.cl/~jperez/resources/ev_cols.tsv) para los embeddings: texto de la frase, más fecha y título del discurso desde donde viene la frase.
+- [Embeddings para 2039 frases](http://dcc.uchile.cl/~jperez/resources/ev_vec.tsv) (vectores de 300 dimensiones)
+- [Metadata](http://dcc.uchile.cl/~jperez/resources/ev_cols.tsv) para los embeddings (texto de la frase más fecha y título del discurso desde donde viene la frase)
 
-Estos datos se pueden visualizar en [projector.tensorflow.org](http://projector.tensorflow.org/). Solo se deben cargar en el sitio en donde se pueden projectar usando PCA o t-SNE. Un ejemplo de proyecciones usando t-SNE se pueden ver [acá](http://).
+Estos datos se pueden visualizar en [projector.tensorflow.org](http://projector.tensorflow.org/). Solo se debe cargar los datos en el sitio. Luego se pueden projectar usando t-SNE o PCA. Un ejemplo de proyecciones usando t-SNE se pueden ver [acá](https://twitter.com/perez/status/955319971931934720).
 
-Pronto estará disponible el código para generar estos embeddings.
+Pronto estará disponible el método y el código usado para generar estos embeddings.
 
 
 ## Bonus! discursos de presidentes argentinos
