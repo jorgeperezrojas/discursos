@@ -1,6 +1,7 @@
 import os
 import bs4
 import re
+import shutil
 
 html_directory = 'data/piñera_1/crawl/htm/'
 txt_directory = 'data/piñera_1/raw_text/'
@@ -12,7 +13,9 @@ months = {'ENE':1,'FEB':2,'MAR':3,'ABR':4,'MAY':5,'JUN':6,'JUL':7,'AGO':8,'SEP':
 
 print('extracting text...')
 
+shutil.rmtree(txt_directory,ignore_errors=True)
 os.makedirs(txt_directory)
+
 for filename in os.listdir(html_directory):
     if filename.endswith('.htm'):
         
@@ -25,7 +28,14 @@ for filename in os.listdir(html_directory):
         content = html.find('section',{'id':'content'})
         pre_date = content.article.header.find('time').get("datetime")
         data['date'] = re.sub('-','_',pre_date)
-        data['title'] = content.article.header.h2.text
+        data['title'] = content.article.find('h2',{'class':'title'}).text.strip()
+        if content.article.section.h2 != None:
+            data['subtitle'] = re.sub('\n',' ', content.article.section.h2.text.strip())
+        else:
+            data['subtitle'] = data['title']
+        if data['subtitle'] == '':
+            data['subtitle'] = data['title']
+
 
         body = html.find('section',{'class':'body'})
         picture = body.find('img')
@@ -50,6 +60,7 @@ for filename in os.listdir(html_directory):
         out_line_meta = outfilename_pref + '\t' 
         out_line_meta += data['date'] + '\t'
         out_line_meta += data['title'] + '\t'
+        out_line_meta += data['subtitle'] + '\t'
         out_line_meta += data['picture'] + '\n'
 
         meta_to_write.append(out_line_meta)

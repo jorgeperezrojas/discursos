@@ -29,6 +29,7 @@ for filename in os.listdir(html_directory):
             year = '2016'
         data['date'] = '_'.join([year,month,day])
         data['title'] = html.find('meta', {'property':'og:title'}).get('content').strip() 
+        data['subtitle'] = 'None'
         picture = None
         if picture:
             data['picture'] = prefix_site + picture.get('src').strip()
@@ -66,6 +67,7 @@ for filename in os.listdir(html_directory):
         out_line_meta = outfilename_pref + '\t' 
         out_line_meta += data['date'] + '\t'
         out_line_meta += data['title'] + '\t'
+        out_line_meta += data['subtitle'] + '\t'        
         out_line_meta += data['picture'] + '\n'
 
         meta_to_write.append(out_line_meta)

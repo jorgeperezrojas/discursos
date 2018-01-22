@@ -1,6 +1,7 @@
 import os
 import bs4
 import re
+import shutil
 
 html_directory = 'data/bachelet_2/crawl/html/'
 txt_directory = 'data/bachelet_2/raw_text/'
@@ -12,6 +13,7 @@ months = {'ENE':1,'FEB':2,'MAR':3,'ABR':4,'MAY':5,'JUN':6,'JUL':7,'AGO':8,'SEP':
 
 print('extracting text...')
 
+shutil.rmtree(txt_directory,ignore_errors=True)
 os.makedirs(txt_directory)
 for filename in os.listdir(html_directory):
     if filename.endswith('.html'):
@@ -36,6 +38,8 @@ for filename in os.listdir(html_directory):
 
         data['title'] = html.find('span',{'id':'main_ltTitulo'}).text.strip()
         data['subtitle'] = html.find('span',{'id':'main_ltBajada'}).text.strip()
+        if data['subtitle'] == '':
+            data['subtitle'] = data['title']
         data['content'] = html.find('span',{'id':'main_ltContenido'}).text.strip()
 
         outfilename_pref = data['date'] + '_' + filename[:-5]

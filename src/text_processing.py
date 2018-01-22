@@ -99,6 +99,8 @@ if __name__ == '__main__':
                         help='Number of discursos to check for duplicates (for each discurso, after the date of the discurso).')
     parser.add_argument('-nE', '--numEquals', metavar='NE', type=int, default=300, 
                         help='Number of charactes to be verbatim equal between two discursos to be consider duplicates.')
+    parser.add_argument('-kR', '--keepRawText', default=False, action='store_true',
+                        help='Keep the raw version of the text processed (otherwise, the folder raw_text/ is deleted).')
 
     args = parser.parse_args()
     base_directory = args.base_directory
@@ -109,6 +111,7 @@ if __name__ == '__main__':
     look_ahead = args.lookAhead
     n_equals = args.numEquals
     verbose = args.verbose
+    keep_raw = args.keepRawText
     word_counts = None
 
     txt_directory = os.path.join(base_directory, 'raw_text/')
@@ -126,7 +129,7 @@ if __name__ == '__main__':
         ### for now we are computing internal word frequencies
         ### it would be better to rely in some external word frequency corpus
         if verbose:
-            print('Computing word frequency statistics for cleaning...')
+            print('computing word frequency statistics for cleaning...')
         # genera una tabla de frecuencia de palabras
         all_lines = []
         all_words = []
@@ -148,7 +151,7 @@ if __name__ == '__main__':
 
     # ahora limpia el texto y guarda uno a uno en archivos distintos
     if verbose:
-        print('Begin cleaning...')
+        print('begin cleaning...')
     for filename in os.listdir(txt_directory):
         if filename == 'meta.txt':
             continue
@@ -166,12 +169,11 @@ if __name__ == '__main__':
         paragraphs = '\n'.join(useful_lines)
         if len(paragraphs) < min_useful_chars:
             if verbose:
-                print('Discarding:',filename[:25],'Not enough useful characters. Total useful characters:',len(paragraphs))
+                print('discarding:',filename[:25],'Not enough useful characters. Total useful characters:',len(paragraphs))
             continue
 
         with open(os.path.join(clean_d_directory,filename),'w') as outfile_discurso:
             outfile_discurso.write(paragraphs)
-
 
     ### now heavy processing
     if duplicate_deletion:
@@ -181,25 +183,55 @@ if __name__ == '__main__':
             look_ahead=look_ahead,
             verbose=verbose)
 
+    if verbose:
+        print('creating meta...')
+    
+    # crea un nuevo archivo meta.txt con la información de los discursos limpios
+    # primero carga el archivo meta original
+    original_meta = {}
+    with open(os.path.join(txt_directory,'meta.txt')) as in_meta_file:
+        for line in in_meta_file:
+            line = line[:-1] # drop the \n
+            data = line.split('\t')
+            
+            name = data[0]
+            date = data[1]
+            title = data[2]
+            subtitle = data[3]
+            img = data[4]
+
+            original_meta[name] = {}
+            original_meta[name]['name'] = name
+            original_meta[name]['date'] = date
+            original_meta[name]['title'] = title
+            original_meta[name]['subtitle'] = subtitle
+            original_meta[name]['img'] = img
+
+    # primero obtiene los nombres de los archivos limpios ordenados
+    filenames = []
+    for filename in os.listdir(clean_d_directory):
+        if filename.endswith(".txt"):
+            filenames.append(filename)
+    filenames.sort()
+
+    # ahora crea el nuevo archivo a partir de los discursos limpios
+    with open(os.path.join(processed_directory,'meta.txt'),'w') as outfile_meta:
+        for filename in filenames:
+            name = filename[:-4]
+            data = [original_meta[name][x] for x in ['name','date','title','subtitle','img']]
+            str_to_write = '\t'.join(data) + '\n'
+            outfile_meta.write(str_to_write)
 
     if full:
-        # primero junta todos los nombres y ordénalos
-        filenames = []
-        for filename in os.listdir(txt_directory):
-            if filename == 'meta.txt':
-                continue
-            if filename.endswith(".txt"):
-                filenames.append(filename)
-
-        filenames = sorted(filenames)
-
+        if verbose:
+            print('generating processed files...')
         with \
             open(os.path.join(processed_directory,'all_text_single_line.txt'),'w') as outfile_single_line, \
             open(os.path.join(processed_directory,'all_text_file_names_plus_content.txt'),'w') as outfile_name_line, \
             open(os.path.join(processed_directory,'all_text_per_paragraphs.txt'),'w') as outfile_todo_por_parrafo:
 
             for filename in filenames:
-                raw_text = open(os.path.join(txt_directory,filename)).read()
+                raw_text = open(os.path.join(clean_d_directory,filename)).read()
                 raw_lines = raw_text.split('\n')
 
                 useful_lines = []
@@ -222,3 +254,11 @@ if __name__ == '__main__':
 
                 outfile_todo_por_parrafo.write(paragraphs)
                 outfile_todo_por_parrafo.write('\n')
+
+    if not keep_raw:
+        if verbose:
+            print('deleting raw input files...')
+        shutil.rmtree(txt_directory,ignore_errors=True)
+
+    if verbose:
+        print('done.')

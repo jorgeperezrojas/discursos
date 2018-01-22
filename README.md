@@ -35,6 +35,17 @@ El script tiene varias otras opciones para regular la limpieza de los textos.
 
 Importante: la extracción de texto desde los archivos más el chequeo de duplicados puede tardar un par de minutos pues el chequeo implica encontrar el traslape máximo entre pares de discursos y eliminar el discurso de menor tamaño cuando el string comun más largo pase cierto umbral. Para modificar los valores de chequeos de duplicados se pueden usar las opciones `--lookAhead` y `--numEquals`.
 
+## Visualización de discursos por temas
+
+Una forma amigable de visualizar algunos temas de discursos es construyendo embeddings para las frases en cada discurso. Los siguientes archivos contienen embeddings para algunas frases de los discursos de Sebastián Piñera.
+
+- [Embeddings para 2039 frases](http://dcc.uchile.cl/~jperez/resources/ev_vec.tsv): 2039 vectores de 300 dimensiones.
+- [Metadata](http://dcc.uchile.cl/~jperez/resources/ev_cols.tsv) para los embeddings: texto de la frase, más fecha y título del discurso desde donde viene la frase.
+
+Estos datos se pueden visualizar en [projector.tensorflow.org](http://projector.tensorflow.org/). Solo se deben cargar en el sitio en donde se pueden projectar usando PCA o t-SNE. Un ejemplo de proyecciones usando t-SNE se pueden ver [acá](http://).
+
+Pronto estará disponible el código para generar estos embeddings.
+
 
 ## Bonus! discursos de presidentes argentinos
 

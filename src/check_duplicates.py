@@ -29,7 +29,7 @@ def check_duplicates(
 
     filenames = sorted(filenames)
     if verbose:
-        print('Checking duplicates for',len(filenames),'files.')
+        print('checking duplicates for',len(filenames),'files.')
 
     for i in range(len(filenames)-1):
         if finish:
@@ -94,4 +94,4 @@ def check_duplicates(
         os.remove(os.path.join(p_txt_directory, dup + '.txt'))
     
     if verbose:
-        print('done.')
+        print('done deleting duplicates.')
