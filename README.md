@@ -44,8 +44,7 @@ Una forma amigable de visualizar algunos temas de discursos es construyendo embe
 
 Estos datos se pueden visualizar en [projector.tensorflow.org](http://projector.tensorflow.org/). Solo se debe cargar los datos en el sitio. Luego se pueden projectar usando t-SNE o PCA. Un ejemplo de proyecciones usando t-SNE se pueden ver [acá](https://twitter.com/perez/status/955319971931934720).
 
-Pronto estará disponible el método y el código usado para generar estos embeddings.
-
+Actualmente me encuentro trabajando en visualizaciones basadas en [Software Galaxies](https://github.com/anvaka/pm#software-galaxies) adaptado a texto. Pueden ver una demo de 18K+ frases de discursos de Bachelet (2014-2018) [acá](https://twitter.com/perez/status/993291012087967744). El proyecto en curso de esta visualización lo pueden encontrar [acá](https://github.com/jorgeperezrojas/disviz#galaxias-de-discursos).
 
 ## Bonus! discursos de presidentes argentinos
 

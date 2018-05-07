@@ -10,7 +10,7 @@ from collections import Counter
 # letras y números en expresiones regulares
 re_nums = '0-9'
 re_letters = 'a-záéíóúüA-ZÁÉÍÓÚÜñÑ'
-re_punctuation_and_space = r'\(\)¿\?!¡\,;.:&\$% '
+re_punctuation_and_space = r'\-\(\)¿\?!¡\,;.:&\$% '
 re_skip_chars = '[^' + re_nums + re_letters + re_punctuation_and_space + ']' 
 re_skip_strings = re_skip_chars + '+'
 re_chars_for_splitting = '[' + re_punctuation_and_space + '–"\n' + ']+'
