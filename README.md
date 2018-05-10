@@ -4,31 +4,27 @@ Datos originales de discursos presidenciales chilenos obtenidos desde la Web, y 
 
 - 575 discursos de Sebastián Piñera desde 2010 hasta 2014, obtenidos desde el sitio http://2010-2014.gob.cl/discursos/ (descargados en diciembre 2017). Todos los discursos se encuentran en archivos en formato .htm. Aproximadamente 560 son discursos únicos en español.
 - 1581 discursos de Michelle Bachelet desde 2014 hasta 2017, obtenidos desde el sitio https://prensa.presidencia.cl/discursos.aspx (descargados en diciembre 2017). Todos los discursos se encuentran en archivos en formato .html. Aproximadamente 1540 son discursos únicos en español.
+- 249 discursos de Salvador Allende desde 1970 hasta 1973, obtenidos desde el sitio https://www.marxists.org/espanol/allende/ (descargados en mayo de 2018).  Todos los discursos se encuentran en archivos en formato .htm (Algunos son entrevistas).
 
-Para descargar los datos originales y descomprimirlos (siguiendo la estructura de carpetas esperada) se debe ejecutar los siguientes comandos desde la raiz:
-
-```
-wget http://dcc.uchile.cl/~jperez/resources/bachelet_2.tar.gz
-wget http://dcc.uchile.cl/~jperez/resources/piñera_1.tar.gz
-
-tar zxvf bachelet_2.tar.gz
-tar zxvf piñera_1.tar.gz
-```
-
-Para extraer el texto crudo desde los archivos .htm y .html se debe ejecutar
+Para descargar los datos originales y descomprimirlos (siguiendo la estructura de carpetas esperada) se debe ejecutar los siguientes comandos desde la raiz, cambianndo `<presidente>` por `piñera_1`, `bachelet_2` o `allende`.
 
 ```
-python src/html_to_txt_plus_meta_bachelet.py
-python src/htm_to_txt_plus_meta_piñera.py
+wget http://dcc.uchile.cl/~jperez/resources/<presidente>.tar.gz
+tar zxvf <presidente>.tar.gz
 ```
 
-en la raiz (requiere python 3, un par de librerías estandar y [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/)). Esto también almacena archivos (meta.txt) con algunos metadatos de cada discurso obtenidos desde los .htm y .html correspondientes (como fecha, títulos, subtítulos y direcciones de archivos de imágenes para ciertos discursos).
+Para extraer el texto crudo desde los archivos .html (o .htm) se debe ejecutar
+
+```
+python src/html_to_txt_plus_meta_<presidente>.py
+```
+
+en la raiz (requiere python 3, un par de librerías estandar y [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/)). Esto también almacena archivos (meta.txt) con algunos metadatos de cada discurso obtenidos desde los .html (o .htm) correspondientes (como fecha, títulos, subtítulos y direcciones de archivos de imágenes para ciertos discursos).
 
 Para limpiar los datos de texto, eliminando textos con muy pocos caracteres útiles, eliminar algunos discursos duplicados (o discursos que son realmente extractos de otros), y eliminar párrafos con palabras de baja frecuencia (para borrar partes en idioma no español, por ejemplo) se debe ejecutar
 
 ```
-python src/text_processing.py data/bachelet_2/ --duplicateDeletion --frequencyCleaning 0.19 --verbose
-python src/text_processing.py data/piñera_1/ --duplicateDeletion --frequencyCleaning 0.19 --verbose
+python src/text_processing.py data/<presidente>/ --duplicateDeletion --frequencyCleaning 0.19 --verbose
 ```
 
 El script tiene varias otras opciones para regular la limpieza de los textos.

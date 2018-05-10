@@ -18,10 +18,11 @@ re_months = r'(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octu
 re_date_spec = '(([' + re_letters + ']{1,30} ?){1,3}\,? +)?[0-9]{1,2}( +de)? +' + re_months + '( +del?)? +2[0-9]{3}\.{0,10}$'
 re_html_garbage = r'((br| ) )*((&([a-z0-9]+;)+(br)*)+)'
 
-sequences_to_delete = ['(APLAUSOS)','()']
+sequences_to_delete = ['(APLAUSOS)','()','(Aplausos)']
 re_text_garbage = '(' + '|'.join(sequences_to_delete) + ')'
 
-banned_prefixes = []
+# "Clarín:" es eliminado por los discursos de Allende
+banned_prefixes = ['Clarín:']
 
 expressions_to_delete = [
    re_html_garbage,
