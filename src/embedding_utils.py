@@ -93,7 +93,7 @@ def avg_word_vector(words,
                     frequencies = None, 
                     total_count = 0, 
                     n_parameter = 0.001,
-                    leave_out = None,
+                    leave_out = [],
                     leave_out_re = None,
                     ):
     
