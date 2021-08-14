@@ -51,7 +51,7 @@ Similar a los discursos de presidentes chilenos, los siguientes son datos origin
 Aproximadamente 1540 son discursos únicos.
 - 372 discursos de Mauricio Macri desde 2015 a enero de 2018 obtenidos desde el sitio https://www.casarosada.gob.ar/informacion/discursos (descargados a inicios de enero 2018). Aproximadamente 360 son discursos únicos. 
 
-Para procesarlos hay que hacer casi lo mismo que arriba. Desde la raiz ejecutar los siguientes comandos, reemplazando `<presidente>` por `kirchner`, `fernandez`, o `macri`.
+Para procesarlos hay que hacer casi lo mismo que arriba. Desde la raiz se debe ejecutar los siguientes comandos, reemplazando `<presidente>` por `kirchner`, `fernandez`, o `macri`.
 
 ```
 wget http://dcc.uchile.cl/~jperez/resources/<presidente>.tar.gz
